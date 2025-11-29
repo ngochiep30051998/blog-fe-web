@@ -1,0 +1,56 @@
+---
+alwaysApply: true
+---
+# Next.js App Router Cursor Rules
+## Project Structure
+- Use App Router exclusively: `app/` directory with `page.tsx`, `layout.tsx`, `loading.tsx`
+- Directory naming: kebab-case (e.g., `app/blog/[slug]/page.tsx`)
+- File naming: PascalCase for components (e.g., `AuthForm.tsx`), `page.tsx`/`layout.tsx` exact
+- Root layout in `app/layout.tsx` with `<html>` and `<body>`
+- Global layout: `app/layout.tsx`, page layouts: nested `layout.tsx`
+
+## Component Architecture
+- Default to React Server Components (RSC) - no `'use client'` unless interactive
+- Client components only for: `onClick`, `useState`, `useEffect`, `useRef`
+- Wrap client components in `Suspense` with `fallback={<div>Loading...</div>}`
+- Named exports only: `export function Button()`
+- Components directory: `components/ui/` for reusable UI, `components/` for pages
+
+## Data Fetching & State
+- Server-side data: `async function Page() { const data = await fetch(...) }`
+- No `useEffect` for data fetching - use Server Components or Server Actions
+- Forms: Server Actions (`"use server"`), `action` prop on `<form>`
+- URL state: `nuqs` or `useSearchParams()` - no local state for filters/pagination
+- State management: Zustand (global), Jotai (local) - avoid Redux
+
+
+## Styling & UI
+- Tailwind CSS with shadcn/ui components
+- Utility-first Tailwind, no custom CSS unless critical
+- Responsive: `sm:`, `md:`, `lg:` prefixes
+- Dark mode: `dark:` prefix with `className="dark"`
+- CSS Modules only for complex animations/transitions
+
+## Performance Rules
+- Streaming: `Suspense` boundaries around data fetches
+- Dynamic imports: `import dynamic from 'next/dynamic'`
+- Images: `next/image` with `sizes`, `priority` for LCP
+- Fonts: `next/font` - no external font loading
+- Metadata: `export const metadata = { title: '...', description: '...' }`
+
+## TypeScript Standards
+- Strict mode: `"strict": true` in `tsconfig.json`
+- No `any` - use `unknown` + type guards
+- Props: `interface Props { children?: ReactNode }`
+- Generics: `function Component<T>({ data }: { data: T })`
+- Path aliases: `@/*` in `tsconfig.json`
+
+## Patterns to Avoid
+❌ `'use client'` at page level
+❌ `useEffect` for API calls
+❌ Client-side `fetch` in Server Components
+❌ Default exports for components
+❌ Global CSS imports in components
+❌ Inline styles or style objects
+
+## Recommended Stack

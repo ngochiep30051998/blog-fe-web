@@ -1,65 +1,103 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Header } from "@/components/ui/Header";
+import { Footer } from "@/components/ui/Footer";
+import { BlogCard } from "@/components/blog/BlogCard";
+
+// Featured posts for homepage
+const featuredPosts = [
+  {
+    id: "1",
+    title: "Getting Started with Next.js 14 App Router",
+    excerpt: "Learn how to build modern web applications using Next.js 14's powerful App Router and React Server Components.",
+    author: "John Doe",
+    date: "2024-01-15",
+    image: "/images/image.png",
+    category: "Technology",
+    readTime: "5 min read",
+  },
+  {
+    id: "2",
+    title: "Modern CSS Techniques for 2024",
+    excerpt: "Explore the latest CSS features and techniques that will help you build beautiful and performant user interfaces.",
+    author: "Jane Smith",
+    date: "2024-01-12",
+    image: "/images/image.png",
+    category: "Design",
+    readTime: "7 min read",
+  },
+  {
+    id: "3",
+    title: "TypeScript Best Practices for React",
+    excerpt: "Discover how to write type-safe React components and improve your development experience with TypeScript.",
+    author: "Mike Johnson",
+    date: "2024-01-10",
+    image: "/images/image.png",
+    category: "Development",
+    readTime: "6 min read",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="border-b border-gray-200 bg-gradient-to-b from-gray-50 to-white py-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl text-center">
+              <h1 className="mb-6 text-5xl font-bold text-gray-900 sm:text-6xl">
+                Welcome to Our Blog
+              </h1>
+              <p className="mb-8 text-xl text-gray-600">
+                Discover articles, tutorials, and insights about web development, design, and technology.
+              </p>
+              <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Link
+                  href="/blog"
+                  className="rounded-lg bg-black px-6 py-3 text-base font-medium text-white hover:bg-gray-800 transition-colors"
+                >
+                  Explore Blog
+                </Link>
+                <Link
+                  href="/about"
+                  className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Learn More
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Posts */}
+        <section className="py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold text-gray-900">Featured Articles</h2>
+              <p className="text-lg text-gray-600">
+                Check out our latest and most popular articles
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {featuredPosts.map((post) => (
+                <BlogCard key={post.id} {...post} />
+              ))}
+            </div>
+            <div className="mt-12 text-center">
+              <Link
+                href="/blog"
+                className="inline-block rounded-lg border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                View All Posts →
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
+
+      <Footer />
     </div>
   );
 }
