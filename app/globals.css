@@ -140,16 +140,47 @@ body::after {
   margin-bottom: 0.5em;
 }
 
-.prose code {
+/* Inline code styling - applies to both prose and blog-content */
+.prose code:not(pre code),
+.blog-content code:not(pre code) {
   font-size: 0.875em;
   font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  background-color: #f3f4f6;
+  color: #dc2626;
+  padding: 0.125em 0.375em;
+  border-radius: 0.25rem;
+  border: 1px solid #e5e7eb;
 }
 
-.prose pre {
+/* Code block styling - applies to both prose and blog-content */
+.prose pre,
+.blog-content pre {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
-  padding: 1em;
+  padding: 1.25em;
   border-radius: 0.5rem;
+  overflow-x: auto;
+  background-color: #1f2937;
+  color: #f9fafb;
+  border: 1px solid #374151;
+  font-size: 0.875em;
+  line-height: 1.75;
+}
+
+/* Code inside pre blocks */
+.prose pre code,
+.blog-content pre code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.875em;
+  font-weight: 400;
+  background-color: transparent;
+  color: #f9fafb;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  display: block;
+  white-space: pre;
   overflow-x: auto;
 }
 
