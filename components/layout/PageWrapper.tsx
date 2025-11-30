@@ -56,9 +56,11 @@ export function PageWrapper({ initialPosts }: PageWrapperProps) {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* HeroSection with full-width background */}
+      <HeroSection onSearch={handleSearch} />
+      
+      {/* Content with max-width container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <HeroSection onSearch={handleSearch} />
-        
         <div className="py-8 lg:py-12">
           <BlogGrid posts={displayedPosts} />
         </div>
