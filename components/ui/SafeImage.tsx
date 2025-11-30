@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 
 interface SafeImageProps {
@@ -19,6 +19,12 @@ interface SafeImageProps {
 // Gray background with "No Image" text
 const DEFAULT_IMAGE = `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iI2YzZjRmNiIvPgogIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk5vIEltYWdlPC90ZXh0Pgo8L3N2Zz4=`;
 
+// Normalize the source - handle empty strings, null, undefined
+// This function is pure and deterministic
+function getNormalizedSrc(source: string | null | undefined): string {
+  return source && source.trim() !== "" ? source : DEFAULT_IMAGE;
+}
+
 export function SafeImage({
   src,
   alt,
@@ -30,26 +36,26 @@ export function SafeImage({
   priority = false,
   objectFit = "cover",
 }: SafeImageProps) {
-  // Normalize the source - handle empty strings, null, undefined
-  const getNormalizedSrc = (source: string | null | undefined): string => {
-    return source && source.trim() !== "" ? source : DEFAULT_IMAGE;
-  };
+  // Use useMemo to ensure consistent initial value between server and client
+  const normalizedSrc = useMemo(() => getNormalizedSrc(src), [src]);
   
-  const [imageSrc, setImageSrc] = useState<string>(getNormalizedSrc(src));
-  const [currentSrc, setCurrentSrc] = useState<string | null | undefined>(src);
+  const [imageSrc, setImageSrc] = useState<string>(normalizedSrc);
+  const [hasError, setHasError] = useState(false);
 
   // Update image source when src prop changes
   useEffect(() => {
-    if (src !== currentSrc) {
-      setCurrentSrc(src);
-      setImageSrc(getNormalizedSrc(src));
+    const newNormalizedSrc = getNormalizedSrc(src);
+    if (newNormalizedSrc !== imageSrc) {
+      setImageSrc(newNormalizedSrc);
+      setHasError(false);
     }
-  }, [src, currentSrc]);
+  }, [src, imageSrc]);
 
   const handleError = () => {
     // Only fallback to default if we haven't already
-    if (imageSrc !== DEFAULT_IMAGE) {
+    if (!hasError && imageSrc !== DEFAULT_IMAGE) {
       setImageSrc(DEFAULT_IMAGE);
+      setHasError(true);
     }
   };
 
