@@ -3,26 +3,54 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --purple-50: #faf5ff;
-  --purple-100: #f3e8ff;
-  --purple-200: #e9d5ff;
-  --purple-500: #a855f7;
-  --purple-600: #9333ea;
-  --purple-700: #7e22ce;
-  --purple-900: #581c87;
+  
+  /* Primary Purple Colors from Figma */
+  --primary-50: #F9F5FF;
+  --primary-100: #F4EBFF;
+  --primary-200: #E9D7FE;
+  --primary-300: #D6BBFB;
+  --primary-700: #6941C6;
+  --primary-900: #42307D;
+  
+  /* Gray Colors from Figma */
+  --gray-300: #D0D5DD;
+  --gray-500: #667085;
+  --gray-900: #101828;
+  
+  /* Legacy purple colors for compatibility */
+  --purple-50: #F9F5FF;
+  --purple-100: #F4EBFF;
+  --purple-200: #E9D7FE;
+  --purple-500: #6941C6;
+  --purple-600: #6941C6;
+  --purple-700: #6941C6;
+  --purple-900: #42307D;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
+  
+  /* Primary Colors */
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-700: var(--primary-700);
+  --color-primary-900: var(--primary-900);
+  
+  /* Gray Colors */
+  --color-gray-300: var(--gray-300);
+  --color-gray-500: var(--gray-500);
+  --color-gray-900: var(--gray-900);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
   position: relative;
   overflow-x: hidden;
 }
@@ -32,26 +60,32 @@ body::before,
 body::after {
   content: '';
   position: fixed;
-  width: 500px;
-  height: 800px;
-  opacity: 0.08;
   pointer-events: none;
   z-index: 0;
-  filter: blur(60px);
+  filter: blur(80px);
+  opacity: 0.1;
 }
 
+/* Left wave - sweeps from bottom-left upward */
 body::before {
-  left: -250px;
-  top: -100px;
-  background: radial-gradient(ellipse 500px 800px at center, #a855f7 0%, transparent 60%);
+  left: -200px;
+  bottom: -200px;
+  width: 600px;
+  height: 1000px;
+  background: radial-gradient(ellipse 600px 1000px at 30% 70%, var(--primary-700) 0%, var(--primary-300) 30%, transparent 70%);
   border-radius: 50%;
+  transform: rotate(-15deg);
 }
 
+/* Right wave - subtle on the right side */
 body::after {
-  right: -250px;
-  top: -100px;
-  background: radial-gradient(ellipse 500px 800px at center, #a855f7 0%, transparent 60%);
+  right: -150px;
+  top: 0;
+  width: 500px;
+  height: 800px;
+  background: radial-gradient(ellipse 500px 800px at 70% 20%, var(--primary-300) 0%, transparent 60%);
   border-radius: 50%;
+  opacity: 0.08;
 }
 
 /* Line clamp utilities */
